@@ -18,6 +18,9 @@ const Local = connection.define("locais", {
     usuarios_id: {
         type: DataTypes.INTEGER
     },
+    coordenadas: {
+        type: DataTypes.STRING,
+    },
     createdAt: {
         allowNull: false,
         type: DataTypes.DATE

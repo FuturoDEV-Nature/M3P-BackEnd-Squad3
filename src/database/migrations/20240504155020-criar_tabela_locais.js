@@ -43,6 +43,11 @@ module.exports = {
           onDelete: 'CASCADE'
         },
 
+        coordenadas: {
+          allowNull: false,
+          type: Sequelize.STRING
+        },
+
         createdAt: {
           allowNull: false,
           type: Sequelize.DATE

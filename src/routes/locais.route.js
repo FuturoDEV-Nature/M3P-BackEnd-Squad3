@@ -3,6 +3,7 @@ const Local = require('../models/Local')
 const { auth } = require('../middleware/auth')
 const { verify } = require('jsonwebtoken')
 const { default: axios } = require('axios')
+const { openStreetMap } = require('../service/map.service')
 
 const localRoutes = new Router()
 
@@ -17,7 +18,7 @@ localRoutes.post("/", auth, async(req, res) => {
                     $nome: "Jardim Botânico de Florianópolis",
                     $descricao: "Lugar cheio de natureza e excelente para fazer um piquinique",
                     $localidade: "localizado no bairro Itacorubi",
-                    $cep: "88015200",
+                    $cep: "cep",
                     $usuarios_id: "14"      
             }
         }
@@ -30,21 +31,25 @@ localRoutes.post("/", auth, async(req, res) => {
         const cep = req.body.cep
         const usuarios_id = req.body.usuarios_id
 
-        // Consulta o CEP na API Nominatim para obter as coordenadas
-        const response = await axios.get(`https://nominatim.openstreetmap.org/search.php?${cep}&country=Brazil&limit=1&format=jsonv2`)
+        if (!cep) {
+            return res.status(400).json({ message: 'O CEP é obrigatório' })
+        }
+        
+        let resposta = await openStreetMap(cep)
+        console.log(resposta)
+        let coordenadas = `${resposta.display_name}, Lat: ${resposta.lat}, Lon: ${resposta.lon}`;
 
-        if (response.data && response.data.length > 0) {
+        
             const local = await Local.create({
                 nome: nome,
                 descricao: descricao,
                 localidade: localidade,
                 cep: cep,
-                usuarios_id : usuarios_id                         
+                usuarios_id: usuarios_id,
+                coordenadas: coordenadas                     
             })
                 res.json(local)
-            } else {
-                res.status(404).json({ error: 'CEP não encontrado' });
-            }
+            
     } catch (error) {
         console.log(error.message)
         res.status(500).json({ error: 'Não foi possível criar o local!' })
