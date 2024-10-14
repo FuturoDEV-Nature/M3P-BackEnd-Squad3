@@ -29,42 +29,39 @@ localRoutes.post("/", auth, async(req, res) => {
     */
 
     try {
-        const nome = req.body.nome 
-        const descricao = req.body.descricao
-        const rua = req.body.rua
-        const cidade = req.body.cidade
-        const bairro = req.body.bairro
-        const uf = req.body.uf
-        const latitude = req.body.latitude
-        const longitude = req.body.longitude
-        const cep = req.body.cep
-        const usuarios_id = req.body.usuarios_id
+        const nome = req.body.nome;
+        const descricao = req.body.descricao;
+        const rua = req.body.rua;
+        const cidade = req.body.cidade;
+        const bairro = req.body.bairro;
+        const uf = req.body.uf;
+        const latitude = req.body.latitude;
+        const longitude = req.body.longitude;
+        const cep = req.body.cep;
+        const usuarios_id = req.body.usuarios_id;
 
-        // Consulta o CEP na API Nominatim para obter as coordenadas
-        const response = await axios.get(`https://nominatim.openstreetmap.org/search.php?${cep}&country=Brazil&limit=1&format=jsonv2`)
+        console.log("Recebido do frontend:", req.body); // Verifica os dados recebidos do frontend
 
-        if (response.data && response.data.length > 0) {
-            const local = await Local.create({
-                nome: nome,
-                descricao: descricao,
-                rua: rua,
-                cidade: cidade,
-                bairro: bairro,
-                uf: uf,
-                latitude: latitude,
-                longitude: longitude,
-                cep: cep,
-                usuarios_id : usuarios_id                         
-            })
-                res.status(201).json(local)
-            } else {
-                res.status(404).json({ error: 'CEP não encontrado' });
-            }
+        const local = await Local.create({
+            nome: nome,
+            descricao: descricao,
+            rua: rua,
+            cidade: cidade,
+            bairro: bairro,
+            uf: uf,
+            latitude: latitude,
+            longitude: longitude,
+            cep: cep,
+            usuarios_id : usuarios_id                         
+        });
+
+        res.status(201).json(local);
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({ error: 'Não foi possível criar o local!' })
+        console.error("Erro ao criar local:", error.message); // Exibe o erro detalhado no log
+        res.status(500).json({ error: 'Não foi possível criar o local!' });
     }
-})
+});
+
 
 
 // Listar Local com base no ID do usuário logado.
