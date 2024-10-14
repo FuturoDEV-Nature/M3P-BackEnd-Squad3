@@ -7,7 +7,7 @@ const { default: axios } = require('axios')
 const localRoutes = new Router()
 
 //Criar Novo Local
-localRoutes.post("/", async(req, res) => {
+localRoutes.post("/", auth, async(req, res) => {
     /*  
             #swagger.tags = ['Local'],
             #swagger.parameters['body'] = {
