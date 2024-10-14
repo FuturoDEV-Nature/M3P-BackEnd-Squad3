@@ -30,7 +30,7 @@
     "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22",
+    "nodemon": "^3.1.7",
     "sequelize-cli": "^6.6.2",
     "swagger-autogen": "^2.23.7"
   }

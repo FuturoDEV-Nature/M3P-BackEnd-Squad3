@@ -28,43 +28,36 @@ localRoutes.post("/", auth, async(req, res) => {
         }
     */
 
-    try {
-        const nome = req.body.nome 
-        const descricao = req.body.descricao
-        const rua = req.body.rua
-        const cidade = req.body.cidade
-        const bairro = req.body.bairro
-        const uf = req.body.uf
-        const latitude = req.body.latitude
-        const longitude = req.body.longitude
-        const cep = req.body.cep
-        const usuarios_id = req.body.usuarios_id
-
-        // Consulta o CEP na API Nominatim para obter as coordenadas
-        const response = await axios.get(`https://nominatim.openstreetmap.org/search.php?${cep}&country=Brazil&limit=1&format=jsonv2`)
-
-        if (response.data && response.data.length > 0) {
-            const local = await Local.create({
-                nome: nome,
-                descricao: descricao,
-                rua: rua,
-                cidade: cidade,
-                bairro: bairro,
-                uf: uf,
-                latitude: latitude,
-                longitude: longitude,
-                cep: cep,
-                usuarios_id : usuarios_id                         
-            })
-                res.status(201).json(local)
-            } else {
-                res.status(404).json({ error: 'CEP não encontrado' });
+        try {
+            const { nome, descricao, rua, cidade, bairro, uf, latitude, longitude, cep, usuarios_id } = req.body;
+        
+            const response = await axios.get(
+              `https://nominatim.openstreetmap.org/search.php?postalcode=${cep}&country=Brazil&limit=1&format=jsonv2`
+            );
+        
+            if (response.data.length === 0) {
+              return res.status(404).json({ error: 'CEP não encontrado' });
             }
-    } catch (error) {
-        console.log(error.message)
-        res.status(500).json({ error: 'Não foi possível criar o local!' })
-    }
-})
+        
+            const local = await Local.create({
+              nome,
+              descricao,
+              rua,
+              cidade,
+              bairro,
+              uf,
+              latitude,
+              longitude,
+              cep,
+              usuarios_id,
+            });
+        
+            res.status(201).json(local);
+          } catch (error) {
+            console.error('Erro ao criar local:', error.message);
+            res.status(500).json({ error: 'Erro interno ao criar o local!' });
+          }
+        });
 
 
 // Listar Local com base no ID do usuário logado.
@@ -295,46 +288,27 @@ localRoutes.get("/:local_id/maps", auth, async(req, res) => {
         }
     */
     try {
-        const { local_id } = req.params
+        const { local_id } = req.params;
 
-        const token = req.headers.authorization;
+    const local = await Local.findOne({ where: { id: local_id, usuarios_id: req.payload.sub } });
+    if (!local) return res.status(404).json({ error: 'Local não encontrado' });
 
-        if (!token) {
-            return res.status(401).json({ message: "Token não é válido" });
-        }
+    const { data } = await axios.get(
+      `https://nominatim.openstreetmap.org/search`, {
+        params: { postalcode: local.cep, country: 'Brazil', format: 'json', limit: 1 }
+      }
+    );
 
-        const Token = verify(token, process.env.SECRET_JWT);
-        req.id = Token.sub;
+    if (data.length === 0) return res.status(404).json({ error: 'CEP não encontrado' });
 
-        const cep = await Local.findOne({
-            where: {
-                id: local_id,
-                usuarios_id: Token.sub
-            }
-        })
-        console.log(cep.cep)
-    
-        const buscar = await axios.get(`https://nominatim.openstreetmap.org/search?format=json&postalcode=${cep.cep}&country=Brazil&limit=1`);
-        console.log(buscar.data)
+    const { lat, lon } = data[0];
+    const googleMapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
 
-        if (buscar.data && buscar.data.length > 0) {
-            const {lat, lon } = buscar.data[0];
-            console.log(lat)
-            console.log(lon)
-
-            const googleMapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
-
-            console.log(googleMapsLink);
-            res.send({ googleMapsLink });
-        }else {
-            console.log("CEP não encontrado")
-            res.status(404).send({ error: 'CEP não encontrado' });
-        }
-    } catch (error) {
-        console.error('Erro ao consultar o CEP:', error);
-        res.status(500).send({ error: 'Erro ao processar a solicitação' });
-    }
-    
-})
+    res.status(200).json({ googleMapsLink });
+  } catch (error) {
+    console.error('Erro ao consultar o CEP:', error.message);
+    res.status(500).json({ error: 'Erro ao processar a solicitação' });
+  }
+});
 
 module.exports = localRoutes

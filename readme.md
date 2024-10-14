@@ -64,8 +64,8 @@ ou
 
 
 ### Rode os seeders na seguinte ordem:
-- 1º. `npx sequelize-cli db:seed --seed Usuarios.seeder.js`
-- 2º. `npx sequelize-cli db:seed --seed Locais.seeder.js`
+- 1º. `npx sequelize-cli db:seed --seed 01_Usuarios.seeder.js`
+- 2º. `npx sequelize-cli db:seed --seed 02_Locais.seeder.js`
 
 
 ### Execute a aplicação em modo de desenvolvimento

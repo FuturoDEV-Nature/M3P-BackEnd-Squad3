@@ -14,7 +14,7 @@ module.exports = {
                 uf: "SC",
                 latitude: "-27.57891733607178",
                 longitude: "-48.50859746172482",
-                usuarios_id: "1"
+                usuarios_id: 1
             },
             {
                 nome: "Fortaleza de São José da Ponta Grossa",
@@ -26,7 +26,7 @@ module.exports = {
                 uf: "SC",
                 latitude: "-27.43146368866134",
                 longitude: "-48.517840386506045",
-                usuarios_id: "2"
+                usuarios_id: 2
             },
             {
                 nome: "Mirante do Morro da Lagoa da Conceição",
@@ -38,7 +38,7 @@ module.exports = {
                 uf: "SC",
                 latitude: "-27.60024520555293",
                 longitude: "-48.48155446421892",
-                usuarios_id: "3"
+                usuarios_id: 3
             },
             {
                 nome: "Praia Brava",
@@ -50,7 +50,7 @@ module.exports = {
                 uf: "SC",
                 latitude: "-27.401502100265265",
                 longitude: "-48.41306939758473",
-                usuarios_id: "4"
+                usuarios_id: 4
             },
             {
                 nome: "Lagoa do Peri",
@@ -62,7 +62,7 @@ module.exports = {
                 uf: "SC",
                 latitude: "-27.729548493594947",
                 longitude: "-48.52308748515427",
-                usuarios_id: "5"
+                usuarios_id: 5
             }
         ])
     },
@@ -70,11 +70,11 @@ module.exports = {
     down: async (QueryInterface, Sequelize) => {
         await Local.destroy({
             usuarios_id: [
-                "1", 
-                "2",
-                "3",
-                "4",
-                "5",
+                1, 
+                2,
+                3,
+                4,
+                5,
             ] 
         })
     }
