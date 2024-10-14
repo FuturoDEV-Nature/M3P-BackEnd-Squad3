@@ -6,7 +6,7 @@ module.exports = {
     up: async (QueryInterface, Sequelize) => {
         const usuarios = [
             {
-                id: "1",
+                id: 1,
                 nome: "Josué Santos",
                 cpf: "12345678910",
                 sexo: "masculino",
@@ -20,7 +20,7 @@ module.exports = {
                 password: "josue1234"
             },
             {
-                id: "2",
+                id: 2,
                 nome: "Anaísa Teodoro",
                 cpf: "12345678911",
                 sexo: "feminino",
@@ -34,7 +34,7 @@ module.exports = {
                 password: "anaisa1234"
             },
             {
-                id: "3",
+                id: 3,
                 nome: "Rodrigo Ribeiro",
                 cpf: "12345678912",
                 sexo: "masculino",
@@ -48,7 +48,7 @@ module.exports = {
                 password: "rodrigo1234"
             },
             {
-                id: "4",
+                id: 4,
                 nome: "Leiliane Costa",
                 cpf: "12345678913",
                 sexo: "feminino",
@@ -62,7 +62,7 @@ module.exports = {
                 password: "leiliane1234"
             },
             {
-                id: "5",
+                id: 5,
                 nome: "Bruno Costa",
                 cpf: "12345678914",
                 sexo: "masculino",
