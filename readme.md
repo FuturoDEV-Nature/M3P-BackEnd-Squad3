@@ -37,7 +37,7 @@ Imagem da aplicação rodando em conjunto com o projeto do Front-End:
  Para esta aplicação, usamos o banco de dados PostgreSql, sendo necessária a instalação do [PostgreSql](https://www.postgresql.org/) e do [pgAdmin4](https://www.pgadmin.org/download/) na máquina.
 
 
-## Rodar o repositório ⚙️
+## Rodar o repositório⚙️
 
 ### Pré-requisitos
 Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
@@ -81,8 +81,17 @@ ou
  Para a documentação desta API utilizamos o [Swagger](https://swagger.io/), que é um conjunto de ferramentas criada pela SmartBear para ajudar desenvolvedores na documentação de API's.
 
 
-### Para Acessar a Interface Gráfica do Swagger
+### Para Acessar a Interface Gráfica do Swagger Localmente 
  Com o servidor rodando - acesse <http://localhost:3000/docs>
+
+
+## Deploy
+ Foi realizado o deploy da API através da plataforma Render. Link de acesso <https://m3p-backend-squad3-n6s0.onrender.com>
+
+ ### Para acessar a API publicada:
+ Para acessar a funcionalidade da API é necessário fazer uso das rotas especificadas na documentação da API.
+
+ [Documentação da API com Swagger Publicada](https://m3p-backend-squad3-n6s0.onrender.com/docs)
 
 
 ## Para Acessar a Plataforma **Natureza365** 🌳
@@ -97,10 +106,8 @@ Para conferir a plataforma com os seus recursos completos, siga os passos abaixo
 - Acesse o diretório do repositório clonado e siga as instruções no README para rodar a aplicação.
 
 
-
-
 ## 👊 Contribuições 💡 
-Trata-se de uma primeira versão do plataforma e muitas melhorias ainda podem ser impletamentadas, como o uso de controllers, criptografia de senha a partir da biblioteca bcrypt e a adição de imagens nos locais cadastrados.
+Trata-se de uma primeira versão do plataforma e muitas melhorias ainda podem ser impletamentadas, como o uso de controllers e adição de imagens nos locais cadastrados.
 
 Fiquem à vontade para sugerir ideias e nos ajudar a deixar o **Natureza365** mais completo e funcional!
 
